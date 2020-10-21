@@ -280,7 +280,7 @@ defaults:
       path: ""
       type: posts
     values:
-      layout: single
+      layout: splash
       author_profile: false
       read_time: false
       comments: false
@@ -288,3 +288,13 @@ defaults:
       related: false
       header:
       image: /assets/images/balance.png
+      classes: wide
+      toc: true
+      
+  # _pages
+  - scope:
+      path: ""
+      type: pages
+    values:
+      layout: single
+      author_profile: true

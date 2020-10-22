@@ -1,4 +1,5 @@
 ---
+layout: post
 title:  "Military Expenditure Analysis"
 categories:
   - Projects

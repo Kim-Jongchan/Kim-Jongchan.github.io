@@ -2,7 +2,7 @@
 layout: single
 title:  "Military Expenditure Analysis"
 categories:
-  - Projects
+  - Data Analysis
 tags:
   - Military
 

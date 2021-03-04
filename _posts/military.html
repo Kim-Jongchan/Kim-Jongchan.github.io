@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Educational, Healthcare, and military spending </title>
+    <script src="https://www.gstatic.com/charts/loader.js"></script>
+    <script>
+        google.charts.load('current',{'packages':['corechart','geochart']});
+        google.charts.setOnLoadCallback(drawAllSheets);
+
+        function drawAllSheets() {
+            drawSheetName('per_gdp_name','SELECT A,J,D,P',per_gdp_ResponseHandler);
+            drawSheetName('per_gdp_name','SELECT A,J,D,P',per_gdp_relative_ResponseHandler);
+            
+
+            drawSheetName('per_capita','SELECT A,J,D,Z',edu_GDP_per_capita_ResponseHandler);
+            drawSheetName('per_capita_per_gdp_edu','SELECT A,G',edu_GDP_per_capita_per_gdp_ResponseHandler);
+
+            
+            drawSheetName('per_capita_per_gdp_health_military','SELECT A,H,I,J,K,L',mil_GDP_per_capita_ResponseHandler);
+            drawSheetName('per_capita_per_gdp_health_military','SELECT A,B,C,D,E,F',health_GDP_per_capita_ResponseHandler);
+            
+            drawSheetName('absolute_education','SELECT V,W,X,Y,Z,AA,AB',edu_growth_ResponseHandler);
+            
+            drawSheetName('absolute_healthcare','SELECT A,H',HealthannualGrowthResponseHandler);
+            drawSheetName('absolute_healthcare','SELECT A,I',HealthFixedGrowthResponseHandler);
+            
+            //drawSheetName('militaryspending','SELECT A,F',topMilitarySpendingResponseHandler);
+            //drawSheetName('meanmilitaryspending','SELECT A,G',averageSpendingResponseHandler);
+            //drawSheetName('sharedgdp','SELECT A,B,C,D,E,F',sharedGDPResponseHandler);
+            //drawSheetName('sharedgdp','SELECT A,F',topSharedGDPResponseHandler);
+            //drawSheetName('percapita','SELECT A,F', topPerCapitaResponseHandler);
+            //drawSheetName('percapitagdp','SELECT A,P,Q,P,S',perCapitaGDPResponseHandler);
+            //drawSheetName('totalgdp','SELECT A,F,S',totalGDPMilitarySpendingResponseHandler);
+        
+        }//drawAllSheets
+
+        function drawSheetName(sheetName,query,responseHandler){
+            var queryString = encodeURIComponent(query);
+            var query = new google.visualization.Query(
+                'https://docs.google.com/spreadsheets/d/1T4Fgy11JK3U6hRHPKnInHrQhUUjchRBc6pzbfohwNBc/gviz/tq?sheet=' + sheetName + '&headers=1&tq=' + queryString
+                );
+            query.send(responseHandler);
+
+        }//drawSheetName
+
+        function checkError(response){
+            if (response.isError()){
+                alert('Error in query: ' + response.getMessage() + ' ' + response.getDetailedMessage());
+            }
+        }
+
+        function per_gdp_ResponseHandler(response){
+            checkError(response);
+            var data = response.getDataTable();
+            data.sort({column:1, desc:true});
+            
+            var options = {
+            
+                title: 'Percentage of Each expenses in GDP(2016)',
+                vAxis: {title: 'Country'},
+                hAxis: {title: 'Percentage(%)'},
+                isStacked:true,
+                legend: { position: 'top', maxLines: 3 },
+                bar: { groupWidth: '75%' },
+            };
+
+            var chart = new google.visualization.BarChart(document.getElementById('spending_div'));
+            chart.draw(data,options);
+        } // gdp_per_ResponseHandler
+
+        function per_gdp_relative_ResponseHandler(response){
+            checkError(response);
+            var data = response.getDataTable();
+            data.sort({column:1, desc:true});
+            
+            var options = {
+            
+                title: 'Percentage of Each expenses(2016)',
+                vAxis: {title: 'Country'},
+                hAxis: {title: 'Percentage(%)'},
+                isStacked:'percent',
+                legend: { position: 'top', maxLines: 3 },
+                bar: { groupWidth: '75%' },
+            };
+
+            var chart = new google.visualization.BarChart(document.getElementById('spending_relative_div'));
+            chart.draw(data,options);
+        } // gdp_per_relative_ResponseHandler
+
+        function edu_GDP_per_capita_ResponseHandler(response){
+            checkError(response);
+            var data = response.getDataTable();
+            //#data.sort({column:5, desc:true});
+            
+            var options = {
+            
+                title: 'Correlation between GDP per capita ' +
+                        'and education expenditure per capita (2016)',
+                vAxis: {title: 'Education expenditure per capita ($)'},
+                hAxis: {title: 'GDP per capita ($)'},
+                colorAxis: {colors: ['yellow', 'red']},
+                bubble: {textStyle: {fontSize: 11},opacity: 0.5},
+                animation: {startup: true, duration: 2000}
+            };
+
+            var chart = new google.visualization.BubbleChart(document.getElementById('education_per_capita_div'));
+            chart.draw(data,options);
+        } // edu_GDP_per_capita_ResponseHandler
+
+        function edu_GDP_per_capita_per_gdp_ResponseHandler(response){
+            checkError(response);
+            var data = response.getDataTable();
+            data.sort({column:1, desc:true});
+
+            var options ={
+                legend:'none',
+                title: 'Percentage of Education expenditure per capita in GDP per capita (2016)' ,
+                vAxis: {title: 'Percentage (%)'},
+                hAxis: {title: 'Country'},
+            };
+
+            var chart = new google.visualization.ColumnChart(document.getElementById('edu_GDP_per_capita_per_gdp_div'));
+            chart.draw(data,options);
+        } // edu_GDP_per_capita_per_gdp_ResponseHandler
+
+
+
+
+
+
+        function mil_GDP_per_capita_ResponseHandler(response){
+            checkError(response);
+            var data = response.getDataTable();
+            data.sort({column:1, desc:true});
+            
+            var options = {
+                title: 'Percentage of Military Expenditure Per Capita in GDP per capita ' +
+                        'over recent 5 years',
+                vAxis: {title: 'Country'},
+                hAxis: {title: 'Percentage (%)'}
+            };
+
+            var chart = new google.visualization.BarChart(document.getElementById('military_per_capita_div'));
+            chart.draw(data,options);
+        } // mil_GDP_ResponseHandler
+
+
+        function health_GDP_per_capita_ResponseHandler(response){
+            checkError(response);
+            var data = response.getDataTable();
+            data.sort({column:1, desc:true});
+            
+            var options = {
+                title:  'Percentage of Healthcare Expenditure Per Capita in GDP per capita ' +
+                        'over recent 5 years',
+                vAxis: {title: 'Country'},
+                hAxis: {title: 'Percentage (%)'}
+            };
+
+            var chart = new google.visualization.BarChart(document.getElementById('healthcare_per_capita_div'));
+            chart.draw(data,options);
+        } // health_GDP_ResponseHandler
+
+        function health_GDP_per_capita_no_ResponseHandler(response){
+            checkError(response);
+            var data = response.getDataTable();
+            //#data.sort({column:5, desc:true});
+            
+            var options = {
+                title: 'Correlation between GDP ' +
+                        'and healthcare expenditure (2018)',
+                vAxis: {title: 'Healthcare expenditure in Billions ($)'},
+                hAxis: {title: 'GDP in Billions ($)'},
+                colorAxis: {colors: ['yellow', 'red']},
+                bubble: {textStyle: {fontSize: 11}}
+            };
+
+            var chart = new google.visualization.BubbleChart(document.getElementById('healthcare_per_capita_no_div'));
+            chart.draw(data,options);
+        } // health_GDP_ResponseHandler
+
+
+
+        function edu_growth_ResponseHandler(response){
+            checkError(response);
+            var data = response.getDataTable();
+            //data.sort({column:1,desc:true});
+
+            var options = {
+                //colorAxis: {colors:['#e7711c','#4374e0']},//orange to blue
+                title:'Growth in Fixed values and in percentage of Education expenditure',
+                vAxis: {title: 'Growth in Fixed values ($ (Billions))'},
+                hAxis: {title: 'Growth in percentage (%)'}
+            };
+
+            var chart = new google.visualization.ScatterChart(document.getElementById('edu_growth_div'));
+            chart.draw(data,options);
+        } // topMilitarySpending
+
+
+        function HealthannualGrowthResponseHandler(response){
+            checkError(response);
+            var data = response.getDataTable();
+            var options = {
+                backgroundColor: '#81d4fa',
+                defaultColor: '#f5f5f5',
+            
+                };
+
+
+            var chart = new google.visualization.GeoChart(document.getElementById('Health_annual_growth_div'));
+            chart.draw(data,options);
+        } // annualGrowthResponseHandler
+
+        function HealthFixedGrowthResponseHandler(response){
+            checkError(response);
+            var data = response.getDataTable();
+            var options = {
+                backgroundColor: '#81d4fa',
+                defaultColor: '#f5f5f5'
+            };
+
+            var chart = new google.visualization.GeoChart(document.getElementById('Health_fixed_growth_div'));
+            chart.draw(data,options);
+        } // FixedGrowthResponseHandler
+
+
+
+        
+
+
+
+
+
+
+
+
+
+
+
+        function averageSpendingResponseHandler(response){
+            checkError(response);
+            var data = response.getDataTable();
+            data.sort({column:1,desc:true});
+
+            var options = {
+              legend: 'none',
+              bars:'horizontal',
+              vAxis:{title:'Country'},
+              hAxis:{title:'Spending Billions ($)'}  
+            };
+            /* using data directly */
+            /*
+            var formatter = new google.visualization.NumberFormat({
+                fractionDigits:2, prefix:'$'});
+            
+            formatter.format(data,1);
+            */
+
+            /* using a view */
+            var view = google.visualization.DataView(data);
+            view.setColumns([0,1,{
+                calc: function(dt,row){
+                    return Math.floor(dt.getFormattedValue(row,1)) + 'B';
+                },
+                sourceColumn:1,
+                type: 'string',
+                role:'anotation'
+
+            }]);
+
+            
+            var chart = new google.visualization.BarChart(document.getElementById('avg_spending_div'));
+            // chart.draw(data,options);
+            chart.draw(view,options);
+        } //averageSpendingResponseHandler
+
+        function sharedGDPResponseHandler(response){
+            checkError(response);
+            var data = response.getDataTable();
+            
+            var options ={};
+
+            var chart = new google.visualization.ColumnChart(document.getElementById('shared_gdp_div'));
+            chart.draw(data,options);
+        } // sharedGDPResponseHandler
+
+        function topSharedGDPResponseHandler(response){
+            checkError(response);
+            var data = response.getDataTable();
+
+            var options = {
+                legend:'none',
+                bars:'horizontal',
+                annotation:{alwaysOutside:true},
+                title:'Top 10 by Military Expense for 2015 as % GDP',
+                vAxis:{title:'Country'},
+                hAxis:{title:'%'}
+            };
+
+            var view = new google.visualization.DataView(data);
+            view.setColumns([0,1,{
+                calc: function(dt, row){
+                    return Math.ceil(dt.getFormattedValue(row,1)) + '%';
+                },
+                sourceColumn:1,
+                type: 'string',
+                role: 'annotation'
+
+            }])
+
+            var chart = new google.visualization.BarChart(document.getElementById('top_shared_gdp_div'));
+            chart.draw(view,options);
+        };
+
+        function topPerCapitaResponseHandler(response){
+            checkError(response);
+            var data = response.getDataTable();
+            data.sort({column:1,desc:true});
+
+            var chart = new google.visualization.ColumnChart(document.getElementById('top_per_capita_div'));
+            chart.draw(data, {title:'Per Capita Spending 2015'});
+        
+        } //
+    
+        function perCapitaGDPResponseHandler(response){
+            checkError(response);
+            var data = response.getDataTable();
+            data.sort({column:5, desc:true});
+
+            var options = {
+                legend: {position: 'top',maxLines:3},
+                bar:{groupWidth: '75%'},
+                isStacked: true
+            };
+
+            var chart = new google.visualization.BarChart(document.getElementById('per_capita_gdp_div'));
+            chart.draw(data,options);
+
+        }
+    
+        function annualGrowthResponseHandler(response){
+            checkError(response);
+            var data = response.getDataTable();
+            var chart = new google.visualization.GeoChart(document.getElementById('annual_growth_div'));
+            chart.draw(data);
+        } // annualGrowthResponseHandler
+
+        function totalGDPMilitarySpendingResponseHandler(response){
+            checkError(response);
+
+            var data = response.getDataTable();
+            data.sort({column:1, desc:true});
+
+            var options = {
+                legend: 'none',
+                bars: 'horizontal',
+                isStacked:true,
+                annotation:{alwaysOutside:true},
+                title:'Military Spending vs Total GDP (2015)',
+                vAxis:{title:'Country'},
+                hAxis:{title:'Spending in Billions ($)'}
+
+            };
+
+            var chart = new google.visualization.BarChart(document.getElementById('total_gdp_military_spending_div'));
+            chart.draw(data,options);
+
+        } //totalGDPMilitarySpendingResponseHandler
+    </script>
+</head>
+
+<body>
+    
+    <h3>Military Spending Analy
+        sis for Top 10 G20 Countries</h3>
+    <div id='spending_div' style='width: 900px; height:500px;'></div>
+    <br>
+    <div id='spending_relative_div' style='width: 900px; height:500px;'></div>
+    <br>
+    
+
+
+    <div id='education_per_capita_div' style='width: 900px; height:500px;'></div>
+    <br>
+
+    <div id='edu_GDP_per_capita_per_gdp_div' style='width: 900px; height:500px;'></div>
+    <br>
+
+
+    <div id='military_per_capita_div' style='width: 900px; height:500px;'></div>
+    <br>
+    
+    <div id='healthcare_per_capita_div' style='width: 900px; height:500px;'></div>
+    <br>
+
+
+
+
+
+    
+    <div id='edu_growth_div' style="width:900px; height:500px;" ></div>
+    <br>
+
+
+
+
+    <div id='Health_annual_growth_div' style="width:900px; height:500px;"></div>
+    <br>
+    <div id='Health_fixed_growth_div' style="width: 900px; height: 500px;"></div>
+    <br>
+
+
+
+
+
+
+    <div id='top_shared_gdp_div' style="width: 900px; height: 500px;"></div>
+    <br>
+    <div id='top_per_capita_div' style="width: 900px; height: 500px;"></div>
+    <br>
+    <div id='per_capita_gdp_div' style="width: 900px; height: 500px;"></div>
+    <br>
+    <div id='annual_growth_div' style="width: 900px; height: 500px;"></div>
+    <br>
+    <div id='total_gdp_military_spending_div' style="width: 900px; height: 500px;"></div>
+
+</body>
+</html>
+
+http

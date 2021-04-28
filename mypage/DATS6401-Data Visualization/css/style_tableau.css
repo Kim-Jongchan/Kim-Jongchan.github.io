@@ -1,0 +1,318 @@
+html {
+    line-height: 1.6; /*https://www.w3schools.com/cssref/pr_dim_line-height.asp*/
+    font-weight: 400; /*https://www.w3schools.com/cssref/pr_font_weight.asp*/
+    font-family: Lato,Helvetica Neue,Arial,sans-serif;
+    text-size-adjust: 100%; /*https://developer.mozilla.org/en-US/docs/Web/CSS/text-size-adjust*/
+    -ms-text-size-adjust: 100%;
+    -webkit-text-size-adjust: 100%;
+    word-wrap: break-word;
+}
+
+body {
+    background-color: #fafafa;
+    color: #1d3d63; /*text color*/
+    margin: 0;
+}
+* {
+    box-sizing: border-box; /*https://developer.mozilla.org/ko/docs/Web/CSS/box-sizing*/
+} 
+div {
+    display: block;
+}
+main {
+    display: block;
+}
+form {
+    display: block;
+    margin-top: 0em;
+}
+input {
+    -webkit-writing-mode: horizontal-tb !important;
+    text-rendering: auto;
+    color: -internal-light-dark(black, white);
+    letter-spacing: normal;
+    word-spacing: normal;
+    text-transform: none;
+    text-indent: 0px;
+    text-shadow: none;
+    display: inline-block;
+    text-align: start;
+    appearance: auto;
+    background-color: -internal-light-dark(rgb(255, 255, 255), rgb(59, 59, 59));
+    -webkit-rtl-ordering: logical;
+    cursor: text;
+    margin: 0em;
+    font: 400 13.3333px Arial;
+    padding: 1px 2px;
+    border-width: 2px;
+    border-style: inset;
+    border-color: -internal-light-dark(rgb(118, 118, 118), rgb(133, 133, 133));
+    border-image: initial;
+}
+option {
+    font-size: 16px;
+    font-family: Lato,Helvetica Neue,Arial,sans-serif;
+    overflow: visible;
+    line-height: 1.15;
+    margin: 0;
+}
+h1 {
+    display: block;
+    font-size: 2em; /*Relative to the font-size of the element (2em means 2 times the size of the current font)*/
+    margin-block-start: 0.67em;
+    margin-block-end: 0.67em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    font-weight: bold;
+}
+p {
+    display: block;
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+}
+
+
+#header, #logo, #menubar {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#header {
+    min-height: 150px;
+    width: 100%;
+    position: relative;
+    padding: .5rem;
+    background: rgb(123, 92, 172); 
+
+}
+
+#logo h1, #logo h2 {
+    font-size: normal 300%;
+    border-bottom: 0;
+    text-transform: none;
+    margin: 0;
+    text-align: center;
+    display: block;
+}
+
+#logo_text h1, #logo_text h1 a, #logo_text h1 a:hover {
+    padding: 10px 0 0 0;
+    color: #fff;
+    letter-spacing: 0.1em;
+    text-decoration: none;
+}
+
+#logo_text h2 {
+    font-size: 130%;
+    padding: 0;
+    color: #fff;
+    display: block;
+}
+
+#menubar {
+    margin: 0 auto;
+    width: 1200px;
+    height: 35px;
+    position: relative;
+    z-index: 1;
+}
+
+ul#menu {
+    margin: 0 auto;
+    display: inline-block;
+    text-align: center;
+}
+
+ul#menu li {
+    text-align: center;
+    float: left;
+    margin: 5px 0 0 0 ;
+    padding: 0 0 5px 10px;
+    list-style: none;
+}
+
+ul#menu li a {
+    letter-spacing: 0em;
+    font: normal 105% arial, sans-serif;
+    text-emphasis: uppercase;
+    display: block;
+    float: left;
+    height: 20px;
+    text-decoration: none;
+    padding: 9px 22px 5px 16px;
+    text-align: center;
+    color: #fff;
+    border: 0;
+}
+
+ul#menu li.selected a {
+    height: 25px;
+    color:#111;
+    padding: 7px 22px 5px 16px;
+
+}
+
+ul#menu li.selected {
+    margin: 7px 0 0 0 ;
+    background: #f8f8f8;
+}
+
+ul#menu li a:hover {
+    color : #888;
+}
+
+#ExplorerContainer {
+    display: flex;
+    height: auto;
+    min-height: 740px;
+    width: 100%;
+    position: relative;
+    padding: .5rem;
+}
+.Explorer {
+    margin: 0 auto; /*to horizontally center the element within its container.*/
+    padding-top: 10px;
+    width: 100%;
+    max-width: 75rem;
+    max-height: 3000px;
+    min-height: 480px;
+    display: grid; 
+    grid-template-columns: 1fr 4fr; /*1:4*/
+    grid-row-gap: 10px;
+    grid-column-gap: 10px;
+}
+
+.ExplorerHeaderBox .ExplorerTitle {
+    font-size: 28px;
+    font-weight: 700;
+    line-height: 32px;
+    
+}
+.ExplorerHeaderBox .ExplorerSubtitle {
+    color: #7a899e;
+    font-size: 13px;
+}
+.ExplorerControlBar {
+    display: flex;
+    justify-content: space-between; /*https://developer.mozilla.org/en-US/docs/Web/CSS/justify-content*/
+    background: #fff;
+    border-radius: 2px;
+    box-shadow: 0 0 0 1px rgb(0 0 0 / 10%), 0 2px 2px rgb(0 0 0 / 8%);
+    padding: 0 14px;
+}
+
+
+
+.ExplorerControlBar .ExplorerControl {
+    display: flex;
+    flex-direction: column; /*https://developer.mozilla.org/ko/docs/Web/CSS/flex-direction*/
+    font-size: 13px;
+    color: #7a899e;
+    max-width: 22%;
+    margin-right: 10px;
+    padding-top: 11px;
+    padding-bottom: 4px;
+}
+.ExplorerControlBar .ExplorerControl .ControlHeader {
+    font-size: 11px;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+}
+.EntityPicker {
+    display: flex;
+    flex-direction: column;
+}
+.EntityPickerSearchInput {
+    flex: 0;
+    position: relative;
+    color: #1d3d63;
+    display: flex;
+}
+.EntityPickerSearchInput .input-field {
+    width: 100%;
+    background-color: #fff;
+    border-radius: 3px;
+    border: none;
+    box-shadow: 0 0 0 1px rgb(0 0 0 / 10%), 0 2px 2px rgb(0 0 0 / 8%);
+    padding: 11px 10px 11px 2em;
+    outline: none;
+    color: inherit;
+    font-weight: 700;
+    position: relative;
+    z-index: 1;
+    -webkit-appearance: none;
+}
+
+.svg-inline--fa {
+    display: inline-block;
+    font-size: inherit;
+    height: 1em;
+    vertical-align: -.125em;
+}
+.svg-inline--fa.fa-w-16 {
+    width: 1em;
+}
+svg-inline--fa, svg:not(:root).svg-inline--fa {
+    overflow: visible;
+}
+
+
+
+
+.Explorer .ExplorerFigure {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    min-height: 600px;
+    margin: -2.5px;
+}
+
+.GrapherComponent, .GrapherComponent ol, .GrapherComponent p, .GrapherComponent ul {
+    font-family: Lato,Helvetica Neue,Arial,sans-serif;
+}
+
+.GrapherComponent {
+    display: inline-block;
+    border-bottom: none;
+    text-align: left;
+    line-height: 1em;
+    background: #fff;
+    color: #333;
+    position: relative;
+    overflow: hidden;
+    border-radius: 2px;
+    box-shadow: 0 0 2px 0 rgb(0 0 0 / 10%), 0 2px 2px 0 rgb(0 0 0 / 25%);
+    z-index: 1;
+}
+.Explorer .ExplorerFigure .GrapherComponent {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+}
+
+.HeaderHTML, .SourcesFooterHTML {
+    font-family: Lato,Helvetica Neue,Arial,sans-serif;
+    font-size: 16px;
+    text-rendering: optimizelegibility;
+    -webkit-font-smoothing: antialiased;
+}
+
+.HeaderHTML {
+    padding: 15px 15px 2px;
+    text-align: left;
+}
+.HeaderHTML h1 {
+    font-family: Playfair Display,Georgia,Times New Roman,serif;
+    font-weight: 400;
+    color: #555;
+    margin: 0;
+}
+.HeaderHTML p {
+    color: #666;
+    margin: 0;
+}
+.Tooltip{z-index:20}

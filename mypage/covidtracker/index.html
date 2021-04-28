@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3.8 Connected scatter plot with interactive legend</title>
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="css/style.css"/>
+    <!--
+    <link rel="stylesheet" href="css/commons.css"/>
+    <link rel="stylesheet" href="css/owid.css"/>
+
+   
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    
+    <link rel="stylesheet" href="css/commons.css"/>
+    <link rel="stylesheet" href="css/owid.css"/>
+    
+    
+    <script src='js/bootstrap.bundle.min.js'></script>
+    
+    <link rel="stylesheet" href="https://ourworldindata.org/assets/css/commons.css"/>
+    <link rel="stylesheet" href="https://ourworldindata.org/assets/css/owid.css"/>
+    -->
+</head>
+<body>
+    <div id='header'>
+        <div id='logo'>
+            <div id='logo_text'>
+                <h1><a href="index.html">COVID19 TRACKER</a></h1>
+                <h2>For 4 different GDP groups</h2>
+            </div><!--logo_text-->
+        </div><!--logo-->
+
+        <div id="menubar">
+            <ul id="menu">
+                <li class="selected"><a href="index.html">Global Trend</a></li>
+                <li><a href="global_map.html">Global Map</a></li>
+                <li><a href="trend.html">Trend of GDP Groups</a></li>
+                <li><a href="percentage.html">Percentage of Total</a></li>
+                <li><a href="case_vaccination.html">Cases VS Vaccinations</a></li>
+                <li><a href="vaccination_ranking.html">Vaccination Rankings</a></li>
+            </ul><!--menu-->
+        </div><!--menubar-->
+    </div><!--header-->
+
+
+
+<main id="ExplorerContainer">
+<div class="Explorer">
+    <div class="ExplorerHeaderBox">
+        <div></div>
+        <div class="ExplorerTitle">COVID-19 <br>Data Explorer</div>
+        <div class="ExplorerSubtitle">DATS 6401 - Data Visualization<br>Jongchan Kim
+            <br><em>Source:</em> <a href="https://github.com/owid/covid-19-data/tree/master/public/data" target="_blank" rel="noopener noreferrer">COVID-19 dataset.</a>
+        </div>
+    </div>
+
+
+<form class="ExplorerControlBar">
+    <!-- Radio button: one choice only -->
+    <div class="ExplorerControl">
+        <div class="ControlHeader">Metric</div>
+        <div id="metric_container">
+            <div class="ControlOption">
+                <label class="Option Available">
+                    <input type="radio" name="metric" value="confirmed_cases" checked>Confirmed Cases<br>
+                </label>
+            </div>
+            <div class="ControlOption">
+                <label class="Option Available">
+                    <input type="radio" name="metric" value="confirmed_deaths">Confirmed Deaths<br>
+                </label>
+            </div>
+            <div class="ControlOption">
+                <label class="Option Available">
+                    <input type="radio" name="metric" value="vaccination">Vaccination<br>
+                </label>
+            </div>
+            <div class="ControlOption">
+                <label class="Option Available">
+                    <input type="radio" name="metric" value="full_vaccination">Full Vaccination<br>
+                </label>
+            </div>
+        </div><!--metric_container-->
+    </div><!--ExplorerControl-->
+
+    <!-- Dropdown button -->
+    <div class="ExplorerControl">
+        <div class="ControlHeader">Interval</div>
+        <select class="interval_container">
+            <option value="cumulative">Cumulative</option>
+            <option value="7_day_rolling_average">7-day rolling average</option>
+            <option value="new_per_day">New per day</option>
+        </select>
+    </div><!--ExplorerControl-->
+
+    <div class="ExplorerControl">
+        <div class="ControlHeader">Count</div>
+        <div class="RelativeOption">
+            <label class='Option Available'>
+                <input type="checkbox" name="count" value>
+                    Relative to Population
+            </label>
+        </div>
+    </div><!--ExplorerControl-->
+</form><!--ExplorerControlBar-->
+
+
+
+    <!-- Text input -->
+
+    <div class="EntityPicker">
+        
+        <div class="EntityPickerSearchInput">
+            
+            <input class="input-field" type="text" onkeyup="searchfunction()" placeholder="Type to add country">
+        
+        </div>
+
+        <div class="CountryListContainer">
+            <div class="CountryList" style="height:100%">
+                <div class="VerticalScrollContainerShadows" style="position: relative; height: 100%;">       
+                   <div style="position: absolute; left: 0px; right: 0px; top: 0px; height: 10px; background: linear-gradient(to top, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.106) 25.8%, rgba(0, 0, 0, 0.45) 60.9%, rgba(0, 0, 0, 0.824) 88.7%, rgb(0, 0, 0) 100%); opacity: 0; pointer-events: none; z-index: 10;"></div>
+                        
+                        <div class="CountrySearchResults" style="overflow-y: auto; position:absolute; inset:0px;">
+                   
+                        </div>
+                    
+                    <div style="position: absolute; left: 0px; right: 0px; bottom: 0px; height: 10px; background: linear-gradient(rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.106) 25.8%, rgba(0, 0, 0, 0.45) 60.9%, rgba(0, 0, 0, 0.824) 88.7%, rgb(0, 0, 0) 100%); opacity: 0.15; pointer-events: none; z-index: 10;"></div>                
+                    
+                </div><!--VerticalScrollContainerShadows-->
+                
+            </div><!--CountryList-->
+
+        </div><!--CountryListContainer-->
+    </div><!--CountryPicker-->
+
+    <div class="ExplorerFigure">
+        <div class="GrapherComponent" style="width: 100%; height: 100%; font-size: 16px;">
+        <div class="HeaderHTML">
+            <h1 style="font-size: 22.4px;line-height: 1;overflow-y: visible; margin-bottom: 4px;"></h1>
+            <br>
+            <p style="font-size: 12.8px; line-height: 1.2; overflow-y: hidden;"></p>
+        </div>
+        <div style="position: relative; clear: both;">
+            <svg id='figures_container' style="font-family: Lato, Helvetica, Arial, sans-serif;font-size: 16px;background-color: white;text-rendering: optimizelegibility;"> <!--svg+defs+use structure for multiple graphs in the same place-->
+                <defs id="figures"> 
+                    
+                </defs>
+                <use href="#total_cases"/>
+            </svg>
+        </div>
+
+        <div class="Tooltip" style="display:none; position: absolute; left: 574px;top:187px;pointer-events: none; white-space: nowrap; background-color: rgba(255, 255, 255, 0.92); box-shadow: rgba(0, 0, 0, 0.12) 0px 2px 2px, rgba(0, 0, 0, 0.35) 0px 0px 1px; border-radius: 2px; text-align: left; font-size: 0.9em; padding: 0.3em;">
+            <table style="font-size: 0.9em; line-height: 1.4em; white-space: normal;">
+                <tbody>
+                    <tr>
+                        <td colspan="3">
+                            <strong>Dec 16, 2020</strong>
+                        </td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+        </div><!--GrapherComponent-->
+    </div><!--ExplorerFigure-->
+</div><!--Explorer-->
+</main><!--ExplorerContainer-->
+
+
+    <!-- Load d3.js -->
+    <script src="https://d3js.org/d3.v4.js"></script>
+    <!-- Load JQuery -->
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <!-- Color Scale -->
+    <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
+    <!-- Load main.js -->
+    <script src="js/main.js"></script>
+    <script>
+        function searchfunction(){
+
+            // Declare variables
+            
+            var input = document.getElementsByClassName("input-field")[0];
+            var filter = input.value.toUpperCase();
+            
+            var country_list = document.getElementsByClassName("CountrySearchResults")[0];
+            var countries = country_list.getElementsByTagName("label");
+            
+            // Loop through all list items, and hide those who don't match the search query
+            for (i=0;i<countries.length;i++){
+                var country = countries[i].getElementsByClassName("name")[0];
+                var txtValue = country.textContent || country.innerText;
+             
+                if (txtValue.toUpperCase().indexOf(filter) >-1){
+                    countries[i].style.display = "";
+                } else {
+                    countries[i].style.display = "none";
+                }
+            }
+            }
+    </script>
+
+</body>
+</html>

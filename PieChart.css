@@ -1,0 +1,19 @@
+body {
+  background-color: #f5f0f0;
+}
+
+.arc path {
+  stroke:#ffffff;
+  stroke-width: .5px;
+}
+
+h1 {
+  text-align: center;
+}
+
+tooltip {
+  display: none;
+  position: absolute;
+  text-align: center;
+  z-index: 10;
+}
